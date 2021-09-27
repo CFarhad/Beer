@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon" />
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="assets/css/bulma.min.css" />
+    <link rel="stylesheet" href="assets/css/master.css">
+    <title>Document Editor</title>
+  </head>
+  <body>
+    <div id="navbar">
+      <nav class="level py-4 nav has-background-white box" style="margin-bottom: 0;">
+        <div class="level-item">
+          <div class="field has-addons">
+            <p class="control">
+              <button class="button is-link is-outlined is-normal" title="راست" style="margin-right: 1px;">
+                <i class="bi bi-caret-left-fill"></i>
+              </button>
+            </p>
+            <p class="control" style="width: 60px;">
+              <input class="input has-text-centered" type="text" placeholder="1" />
+            </p>
+            <p class="control">
+              <button class="button is-link is-outlined is-normal" title="راست">
+                <i class="bi bi-caret-right-fill"></i>
+              </button>
+            </p>
+          </div>
+        </div>
+  
+        <div class="level-item">
+          <button class="button is-link is-outlined is-normal" title="بزرگنمایی">
+            <i class="bi bi-zoom-in"></i>
+          </button>
+          <button
+            class="button is-link is-outlined is-normal ml-1"
+            title="دورنمایی"
+          >
+            <i class="bi bi-zoom-out"></i>
+          </button>
+        </div>
+        <div class="level-item">
+          <button class="button is-link is-outlined is-normal" title="افزودن عکس">
+            <i class="bi bi-image"></i>
+          </button>
+        </div>
+        <div class="level-item">
+          <button
+            class="button is-link is-outlined is-normal"
+            title="افزودن امضا"
+          >
+            <i class="bi bi-pen"></i>
+          </button>
+        </div>
+        <div class="level-item">
+          <button
+            class="button is-link is-outlined is-normal"
+            title="افزودن امضا"
+          >
+            <i class="bi bi-lamp"></i>
+          </button>
+        </div>
+        <div class="level-item">
+          <button
+            class="button is-link is-outlined is-normal"
+          >
+            <i class="bi bi-download mr-2"></i>
+            ذخیره
+          </button>
+        </div>
+      </nav>
+      <div class="subnav">
+        <nav class="level py-2 nav has-background-light box">
+        </nav>
+      </div>
+    </div>
+    
+
+    <div class="container" style="height: 1000px;">
+      <div class="main">
+        madmax
+      </div>
+    </div>
+
+    <script src="../src/app.js"></script>
+    <script>
+      let editor = new Editor({
+        board : "main"
+      })
+    </script>
+  </body>
+</html>
