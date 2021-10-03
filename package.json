@@ -1,0 +1,31 @@
+{
+  "name": "beer",
+  "version": "1.0.0",
+  "description": "Document Editor with hot features",
+  "main": "index.js",
+  "devDependencies": {
+    "terser-webpack-plugin": "^5.2.4",
+    "webpack": "^5.56.0",
+    "webpack-cli": "^4.8.0"
+  },
+  "optionalDependencies": {
+    "webpack-dev-server": "^4.3.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CFarhad/Beer.git"
+  },
+  "author": "farhad bagheri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CFarhad/Beer/issues"
+  },
+  "homepage": "https://github.com/CFarhad/Beer#readme",
+  "dependencies": {
+    "konva": "^8.2.1"
+  }
+}
