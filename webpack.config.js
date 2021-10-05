@@ -7,8 +7,8 @@ const mode = process.env.NODE_ENV || "development";
 module.exports = {
   mode: mode,
   entry: {
-      editor: "./src/index.js",
-      "editor.min": "./src/index.js",
+      beer: "./src/index.js",
+      "beer.min": "./src/index.js",
   },
   output: {
       path: path.resolve(__dirname, "bundle"),
@@ -16,7 +16,7 @@ module.exports = {
       library: "Beer",
       libraryExport: "default",
   },
-  devtool: mode == "development" ? "source-map" : "none",
+
   plugins: [
       new TerserWebpackPlugin({
           test: /\.min\.js$/,

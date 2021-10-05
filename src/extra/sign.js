@@ -30,7 +30,7 @@ export class Sign {
       var pos = this.signStage.getPointerPosition();
       lastLine = new Konva.Line({
         stroke: '#df4b26',
-        strokeWidth: 5,
+        strokeWidth: mode === 'brush' ? 5 : 30,
         globalCompositeOperation:
           mode === 'brush' ? 'source-over' : 'destination-out',
         // round cap for smoother lines
