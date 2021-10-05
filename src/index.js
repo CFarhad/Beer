@@ -1,5 +1,19 @@
 
-export {config} from './config'
-export {Sign} from './extra/sign'
+import Config from './config'
+import {Sign} from './extra'
 
-export * as default from './'
+
+const Beer =  function ({main,url,signMain,tools}){
+  Object.assign(
+    this,
+    new Config(main,url),
+    new Sign(signMain,tools)
+  )
+}
+
+Beer.prototype = {
+  exportSign: Sign.prototype.exportSign,
+  addImage: Config.prototype.addImage
+}
+
+export default Beer

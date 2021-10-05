@@ -1,34 +1,45 @@
-import Konva from "konva";
-import {Sign} from './extra/sign'
+import Konva from 'konva';
 
-export class config {
-  constructor(option = {}) {
-    [this.main,this.signBoard , this.url] = [
-      option.main,
-      option.signBoard,
-      option.url
-    ];
-    this.stage = null;
-    this.layer = new Konva.Layer();
+export default class Config {
+  constructor(main, url) {
+    [this.main, this.url] = [main, url];
 
-    this.render()
+    this.mainStage = new Konva.Stage({
+      container: this.main,
+      width: 600,
+      height: 400,
+    });
+
+    this.mainLayer = new Konva.Layer();
+
+    this.mainStage.add(this.mainLayer);
   }
 
-  render(){
-    this.#MainCanvas()
-    new Sign(this.signBoard).render()
-  }
-  
-  #MainCanvas(){
-    return new Promise(resolve=>{
-      this.stage = new Konva.Stage({
-        container: this.main,
-        width: 600,
-        height: 400,
-      })
-      if(this.stage !== null){
-        resolve()
-      }
-    })
+  addImage(src) {
+    let newImage = new Image();
+    newImage.src = src;
+
+    let image = new Konva.Image({
+      image: newImage,
+      x: 80,
+      y: 100,
+      name: 'image',
+      draggable: true,
+    });
+
+    this.mainLayer.add(image);
+
+    const tr = new Konva.Transformer({
+      nodes: [image],
+      boundBoxFunc: (oldBox, newBox) => {
+        if (newBox.width < 10 || newBox.height < 10) {
+          return oldBox;
+        }
+        return newBox;
+      },
+    });
+
+    this.mainLayer.add(tr);
+
   }
 }
