@@ -13,7 +13,7 @@ module.exports = {
   output: {
       path: path.resolve(__dirname, "bundle"),
       filename: "[name].js",
-      library: "editor",
+      library: "Beer",
       libraryExport: "default",
   },
   devtool: mode == "development" ? "source-map" : "none",
