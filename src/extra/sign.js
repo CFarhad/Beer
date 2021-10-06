@@ -1,7 +1,5 @@
 import Konva from 'konva';
 
-let lastLine;
-let image = [];
 
 export class Sign {
   constructor(signMain, tools) {
@@ -14,58 +12,95 @@ export class Sign {
       height: 250,
     });
     this.signLayer = new Konva.Layer();
+    this.crop = {
+      xStart:0,
+      yStart:0,
+      xEnd:0,
+      yEnd:0,
+    }
 
     this.signStage.add(this.signLayer);
 
     this.#draw();
   }
-  s;
 
   #draw() {
+    var canvas = document.createElement('canvas');
+    canvas.width = this.signStage.width();
+    canvas.height = this.signStage.height();
+
+    // created canvas we can add to layer as "Konva.Image" element
+    var image = new Konva.Image({
+      image: canvas,
+      x: 0,
+      y: 0,
+    });
+    this.signLayer.add(image);
+
+    // Good. Now we need to get access to context element
+    var context = canvas.getContext('2d');
+    context.strokeStyle = '#df4b26';
+    context.lineJoin = 'round';
+    context.lineWidth = 5;
+
     var isPaint = false;
+    var lastPointerPosition;
     var mode = 'brush';
 
-    this.signStage.on('mousedown touchstart',  (e)=> {
+    // now we need to bind some events
+    // we need to start drawing on mousedown
+    // and stop drawing on mouseup
+    image.on('mousedown touchstart', () => {
       isPaint = true;
-      var pos = this.signStage.getPointerPosition();
-      lastLine = new Konva.Line({
-        stroke: '#df4b26',
-        strokeWidth: mode === 'brush' ? 5 : 30,
-        globalCompositeOperation:
-          mode === 'brush' ? 'source-over' : 'destination-out',
-        // round cap for smoother lines
-        lineCap: 'round',
-        // add point twice, so we have some drawings even on a simple click
-        points: [pos.x, pos.y, pos.x, pos.y],
-      });
-      this.signLayer.add(lastLine);
+      lastPointerPosition = this.signStage.getPointerPosition();
     });
 
-    this.signStage.on('mouseup touchend',  ()=> {
+    // will it be better to listen move/end events on the window?
+
+    this.signStage.on('mouseup touchend', () => {
       isPaint = false;
     });
 
-    // and core  - drawing
-    this.signStage.on('mousemove touchmove',  (e)=> {
+    // and core function - drawing
+    this.signStage.on('mousemove touchmove', () => {
       if (!isPaint) {
         return;
       }
 
-      // prevent scrolling on touch devices
-      e.evt.preventDefault();
+      if (mode === 'brush') {
+        context.globalCompositeOperation = 'source-over';
+      }
+      if (mode === 'eraser') {
+        context.globalCompositeOperation = 'destination-out';
+      }
+      context.beginPath();
 
-      const pos = this.signStage.getPointerPosition();
-      var newPoints = lastLine.points().concat([pos.x, pos.y]);
-      lastLine.points(newPoints);
+      var localPos = {
+        x: lastPointerPosition.x - image.x(),
+        y: lastPointerPosition.y - image.y(),
+      };
+      context.moveTo(localPos.x, localPos.y);
+      var pos = this.signStage.getPointerPosition();
+      localPos = {
+        x: pos.x - image.x(),
+        y: pos.y - image.y(),
+      };
+      context.lineTo(localPos.x, localPos.y);
+      context.closePath();
+      context.stroke();
+
+      lastPointerPosition = pos;
+      // redraw manually
+      this.signStage.batchDraw();
     });
 
-    var select = document.querySelector(this.tools)
-    select.addEventListener('change',  ()=> {
+    var select = document.querySelector(this.tools);
+    select.addEventListener('change', () => {
       mode = select.value;
     });
   }
   exportSign() {
-    return lastLine.toDataURL({
+    return this.signLayer.toDataURL({
       mimeType: 'image/png',
       quality: 1,
     });

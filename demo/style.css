@@ -1,0 +1,7 @@
+#insertImage input[type=file]{
+  display: none;
+}
+
+.konvajs-content{
+  border: 1px solid #1F2937;
+}

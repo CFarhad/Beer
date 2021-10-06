@@ -13,7 +13,8 @@ const Beer =  function ({main,url,signMain,tools}){
 
 Beer.prototype = {
   exportSign: Sign.prototype.exportSign,
-  addImage: Config.prototype.addImage
+  addImage: Config.prototype.addImage,
+  setTransformer: Config.prototype.setTransformer
 }
 
 export default Beer
