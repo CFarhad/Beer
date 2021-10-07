@@ -9,15 +9,15 @@ export default class Config {
       width: 600,
       height: 400,
     });
-
+    this.mainStage.container().style.background = "#F3F4F6"
     this.mainLayer = new Konva.Layer();
     this.transformer = new Konva.Transformer({
       padding: 14,
       borderStrokeWidth: 1,
       anchorSize: 13,
       rotateAnchorOffset: 25,
-      anchorFill: "#0d6efd",
-      anchorStroke: "#093473",
+      anchorFill: "#2563EB",
+      anchorStroke: "#1D4ED8",
       anchorStrokeWidth: 2,
       anchorCornerRadius: 100
     })

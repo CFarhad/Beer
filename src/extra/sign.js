@@ -11,6 +11,7 @@ export class Sign {
       width: 450,
       height: 250,
     });
+    this.signStage.container().style.border = "1px dashed #9CA3AF"
     this.signLayer = new Konva.Layer();
     this.crop = {
       xStart:0,
@@ -95,9 +96,11 @@ export class Sign {
     });
 
     var select = document.querySelector(this.tools);
-    select.addEventListener('change', () => {
-      mode = select.value;
-    });
+    if(select){
+      select.addEventListener('change', () => {
+        mode = select.value;
+      });
+    }
   }
   exportSign() {
     return this.signLayer.toDataURL({

@@ -5,93 +5,127 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/bootstrap-icons.css">
-  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/tailwind.css">
   <link rel="stylesheet" href="style.css">
   <title>Editor Demo</title>
 </head>
 <body>
   
-  <ul class="nav bg-light py-3">
-    <div class="container d-flex align-items-center justify-content-between">
-      <li class="nav-item">
-        <div class="input-group">
-          <button class="btn btn-outline-primary" type="button"  disabled>
-            <i class="bi bi-caret-left-fill"></i>
-          </button>
-          <input type="text" class="form-control text-center" style="width: 120px;" placeholder="1" disabled>
-          <button class="btn btn-outline-primary" type="button"  disabled>
-            <i class="bi bi-caret-right-fill"></i>
-          </button>
-        </div>
-      </li>
-      <li class="nav-item" >
-        <button class="btn btn-outline-primary" type="button" disabled>
-          <i class="bi bi-zoom-in"></i>
-        </button>
-        <button class="btn btn-outline-primary" type="button" disabled>
-          <i class="bi bi-zoom-out"></i>
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#signModal">
-          <i class="bi bi-pen"></i>
-        </button>
-      </li>
-      <li class="nav-item">
-        <label class="btn btn-outline-primary" id="insertImage" for="inputFile">
-          <input type="file" id="inputFile" accept=".png,.svg,.jpg">
-            <i class="bi bi-image"></i>
-          </input>
-        </label>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-outline-primary" type="button" disabled>
-          <i class="bi bi-lamp"></i>
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="btn btn-outline-primary" type="button" disabled>
-          <i class="bi bi-download"></i>
-          ذخیره
-        </button>
-      </li>
-    </div>
-  </ul>
+  <div x-data="app" class="max-h-screen">
+    <nav class="bg-gray-800 fixed top-0 w-full z-50">
+      <div class="container mx-auto flex items-center justify-between h-20 px-7">
+          <div class="flex items-center">
+            <h1 class="font-brand text-5xl text-white mt-1">Beer</h1>
+          </div>
+          <div class="flex items-center justify-between space-x-5">
+            <div class="flex items-center">
+              <div class="flex items-center">
+                <button class="btn-blue rounded-r-none" title="قبلی">
+                  <i class="bi bi-caret-left-fill"></i>
+                </button>
+                <input type="text" class="control text-center border border-transparent" placeholder="1">
+                <button class="btn-blue rounded-l-none" title="بعدی">
+                  <i class="bi bi-caret-right-fill"></i>
+                </button>
+              </div>
+            </div>
+            <div class="flex items-center space-x-2.5">
+              <button class="btn-blue">
+                <i class="bi bi-zoom-in"></i>
+              </button>
+              <button class="btn-blue">
+                <i class="bi bi-zoom-out"></i>
+              </button>
+            </div>
+            <div class="flex items-center ">
+              <button class="btn-blue" @click="toggleModal">
+                <i class="bi bi-pen"></i>
+              </button>
+            </div>
+            <div class="flex items-center ">
+              <label class="btn-blue cursor-pointer" id="insertImage" for="inputFile">
+                <input class="hidden" type="file" id="inputFile" accept=".png,.svg,.jpg" x-on:change="e=>addImage(e)">
+                  <i class="bi bi-image"></i>
+                </input>
+              </label>
+            </div>
+            <div class="flex items-center ">
+              <button class="btn-blue">
+                <i class="bi bi-lamp"></i>
+              </button>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <button class="btn-green">
+              <i class="bi bi-download"></i>
+            </button>
+          </div>
+      </div>
+    </nav>
 
-  <div class="container">
-    <div id="main" class="mt-4">
+
+
+      <!-- Signature Modal -->
+    <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" x-bind:class="modal ? '' : 'hidden'">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <!--
+          Background overlay, show/hide based on modal state.
+    
+          Entering: "ease-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in duration-200"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    
+        <!-- This element is to trick the browser into centering the modal contents. -->
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    
+        <!--
+          Modal panel, show/hide based on modal state.
+    
+          Entering: "ease-out duration-300"
+            From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            To: "opacity-100 translate-y-0 sm:scale-100"
+          Leaving: "ease-in duration-200"
+            From: "opacity-100 translate-y-0 sm:scale-100"
+            To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        -->
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div class="w-full flex justify-between flex-row-reverse p-4 pb-0">
+            <button class="text-2xl btn-close" @click="toggleModal">
+              <i class="bi bi-x"></i>
+            </button>
+            <h3>Draw</h3>
+          </div>
+          <div class="bg-white p-4">
+            <div class="flex justify-center items-center">
+                <div id="signBoard"></div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button type="button" class="btn-green ml-3" @click="addSignature">
+              Add
+            </button>
+            <button type="button" class="btn-default" 
+              @click="toggleModal"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="workspace">
       <div id="mainBoard"></div>
     </div>
   </div>
 
-  <!-- Sign Modal -->
-<div class="modal fade" id="signModal" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sign Board</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex align-items-center justify-content-center flex-column">
-        <div id="signTools">
-          <select class="form-select mb-2" >
-            <option selected value="brush">brush</option>
-            <option value="eraser">Eraiser</option>
-          </select>
-        </div>
-        <div style="border: 1px dashed #3e3e3e;">
-          <div id="signBoard"></div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="exportSignature">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-  <script src="js/bootstrap.min.js"></script>
+  <script defer src="js/alpine.min.js"></script>
   <script src="./beer.js"></script>
   <!-- Testing -->
   <script src="./js/script.js"></script>

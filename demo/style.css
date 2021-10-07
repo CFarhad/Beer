@@ -1,7 +1,3 @@
-#insertImage input[type=file]{
-  display: none;
-}
-
-.konvajs-content{
-  border: 1px solid #1F2937;
+.workspace{
+  height: calc(100vh - 5rem);
 }
