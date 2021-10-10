@@ -1,4 +1,4 @@
-/node_modules
-.rar
-.zip
-/demo/tailwind.config.js
+/node_modules/
+/public/build/
+
+.DS_Store

@@ -1,20 +1,10 @@
+import App from './App.svelte';
 
-import Config from './config'
-import {Sign} from './extra'
+const Beer = new App({
+	target: document.body,
+	props: {
+		name: 0
+	}
+});
 
-
-const Beer =  function ({main,url,signMain,tools}){
-  Object.assign(
-    this,
-    new Config(main,url),
-    new Sign(signMain,tools)
-  )
-}
-
-Beer.prototype = {
-  exportSign: Sign.prototype.exportSign,
-  addImage: Config.prototype.addImage,
-  setTransformer: Config.prototype.setTransformer
-}
-
-export default Beer
+export default Beer;
