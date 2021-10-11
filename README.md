@@ -51,7 +51,7 @@ npm run build
 ```
 
 ## Run project on server
-You must delete the / character in the `index.html` file from behind the path
+You must delete the `/` character in the `index.html` file from behind the path
 
 from
 ```html
