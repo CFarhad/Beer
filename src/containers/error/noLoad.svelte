@@ -1,12 +1,8 @@
 <script>
-  import {modal} from '../../store/index'
-
-  function toggleModal(){
-    modal.update(item => item = !item)
-  }
+  export let onError = false;
 </script>
 
-<div class="fixed z-50 inset-0 overflow-y-auto {$modal ? '' : 'hidden'}" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div class="fixed z-50 inset-0 overflow-y-auto {onError ? '' : 'hidden'}" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <!--
           Background overlay, show/hide based on modal state.
@@ -33,26 +29,16 @@
             From: "opacity-100 translate-y-0 sm:scale-100"
             To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         -->
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div class="w-full flex justify-between flex-row-reverse p-4 pb-0">
-            <button class="text-2xl btn-close" on:click={toggleModal}>
-              <i class="bi bi-x"></i>
-            </button>
-            <h3>Draw</h3>
+        <div class="inline-block align-bottom bg-white py-5 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <div class="w-full flex items-center justify-center">
+            <svg class="h-14 w-14 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
           </div>
-          <div class="flex items-center justify-between"></div>
-          <div class="bg-white p-4">
-            <div class="flex justify-center items-center">
-                <div id="signBoard"></div>
-            </div>
-          </div>
-          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button type="button" class="btn-green ml-3" >
-              افزودن
-            </button>
-            <button type="button" class="btn-default" on:click={toggleModal}>
-              لغو کردن
-            </button>
+          <div class="w-full text-center mt-3">
+            <p class="text-xl font-bold text-gray-700">فایل بارگیری نشد</p>
+            <p class="text-base text-gray-600 w-96 m-auto my-5">فایل شما به دلیل سرعت اینترنت یا خرابی فایل بارگیری نشد</p>
+            <button class="btn-indigo" on:click={()=>window.location.reload()}>بارگیری مجدد</button>
           </div>
         </div>
       </div>

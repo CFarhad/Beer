@@ -8,9 +8,10 @@
   const mode = searchParams.get('mode');
 </script>
 
+
 <main>
   {#if mode === 'pdf'}
-    <PDF />
+    <PDF file={file} />
 	{:else if mode === 'image'}
 		hi
   {:else}

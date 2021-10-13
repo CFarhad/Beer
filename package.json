@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "SET NODE_ENV=development && rollup -c -w",
     "start": "sirv public --no-clear",
     "build:tailwind": "postcss src/index.css -o src/assets/css/tailwind.css"
   },
@@ -19,9 +19,12 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.2",
     "autoprefixer": "^10.3.7",
+    "konva": "^8.2.2",
     "pdfjs-dist": "^2.10.377",
     "postcss-cli": "^9.0.1",
+    "redux": "^4.1.1",
     "sirv-cli": "^1.0.0",
     "tailwindcss": "^2.2.16"
   }

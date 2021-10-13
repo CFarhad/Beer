@@ -4,7 +4,7 @@
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
 
-	<title>Svelte app</title>
+	<title>Beer</title>
 
 	<link rel='icon' type='image/png' href='favicon.png'>
 	<link rel='stylesheet' href='build/bundle.css'>
@@ -13,5 +13,15 @@
 </head>
 
 <body>
+
+	<script>
+		// HACK(keanulee): The Redux package assumes `process` exists - mock it here before
+		// the module is loaded.
+		window.process = {
+			env: {
+				NODE_ENV: 'development'
+			}
+		};
+	</script>
 </body>
 </html>
