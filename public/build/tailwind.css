@@ -11,6 +11,13 @@ Document
 Use a better box model (opinionated).
 */
 
+#main{
+  height: calc(100vh - (4rem + 3.5rem));
+  margin-top: calc(4rem + 3.5rem);
+  padding: 10px 0;
+  overflow: auto;
+}
+
 *,
 ::before,
 ::after {

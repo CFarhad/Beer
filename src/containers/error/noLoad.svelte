@@ -37,7 +37,7 @@
           </div>
           <div class="w-full text-center mt-3">
             <p class="text-xl font-bold text-gray-700">فایل بارگیری نشد</p>
-            <p class="text-base text-gray-600 w-96 m-auto my-5">فایل شما به دلیل سرعت اینترنت یا خرابی فایل بارگیری نشد</p>
+            <p class="text-base text-gray-600 w-96 m-auto my-5">مشکلی در بارگیری فایل بوجود آمده است . مجددا امتحان کنید</p>
             <button class="btn-indigo" on:click={()=>window.location.reload()}>بارگیری مجدد</button>
           </div>
         </div>

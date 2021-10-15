@@ -1,8 +1,84 @@
 <script>
+  import {onMount} from 'svelte'
   import {modal} from '../../store/index'
+  import {createSignatureStage,
+    addToSignatureLayer,
+    removeSignature,
+    exportSignature,} from '../../reducers/signature';
+  import {addImage} from '../../reducers/workspace'
+  import {SIGN_STAGE} from '../../constant/editor'
+  import {useDispatch,useStore} from 'svelte-reedux'
+
+
+  const dispatch = useDispatch();
+  const store = useStore();
+
+  let stage;
+  let layer;
+  let isPaint = false;
+  let mode = 'brush';
+  let lastLine;
+
+
+  onMount(()=>{
+    dispatch(createSignatureStage({stage: SIGN_STAGE}))
+    stage = store.getState().signature.stage;
+
+    stage.on('mousedown touchstart', function (e) {
+        isPaint = true;
+        var pos = stage.getPointerPosition();
+        lastLine = new Konva.Line({
+          stroke: '#000000',
+          strokeWidth: 5,
+          globalCompositeOperation:
+            mode === 'brush' ? 'source-over' : 'destination-out',
+          // round cap for smoother lines
+          lineCap: 'round',
+          // add point twice, so we have some drawings even on a simple click
+          points: [pos.x, pos.y, pos.x, pos.y],
+        });
+        dispatch(addToSignatureLayer(lastLine))
+      });
+
+      
+      stage.on('mouseup touchend', function () {
+        isPaint = false;
+      });
+    
+
+      stage.on('mousemove touchmove', function (e) {
+        if (!isPaint) {
+          return;
+        }
+
+        // prevent scrolling on touch devices
+        e.evt.preventDefault();
+
+        const pos = stage.getPointerPosition();
+        var newPoints = lastLine.points().concat([pos.x, pos.y]);
+        lastLine.points(newPoints);
+      });
+  })
+
 
   function toggleModal(){
     modal.update(item => item = !item)
+  }
+
+  function deleteSignature(){
+    dispatch(removeSignature())
+  }
+
+  function exportSign(){
+    const getLayer = store.getState().signature.layer.getChildren();
+    if(getLayer.length > 0){
+      const aspectRatio = store.getState().editor.size.aspectRatio;
+      dispatch(exportSignature({aspectRatio}))
+      let dataURL = store.getState().signature.line;
+      let {width , height} = store.getState().editor.size;
+      dispatch(addImage({dataURL,width,height}))
+      toggleModal()
+    }
   }
 </script>
 
@@ -42,16 +118,16 @@
           </div>
           <div class="flex items-center justify-between"></div>
           <div class="bg-white p-4">
-            <div class="flex justify-center items-center">
-                <div id="signBoard"></div>
+            <div class="flex justify-center items-center flex-col">
+                <div id={SIGN_STAGE}></div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button type="button" class="btn-green ml-3" >
+            <button type="button" class="btn-green ml-3" on:click={exportSign}>
               افزودن
             </button>
-            <button type="button" class="btn-default" on:click={toggleModal}>
-              لغو کردن
+            <button type="button" class="btn-red" on:click={deleteSignature}>
+              پاک کردن
             </button>
           </div>
         </div>

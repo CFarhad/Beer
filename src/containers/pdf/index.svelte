@@ -4,9 +4,15 @@
   import {STAGE,PDF_WORKER_SRC,PDF_WORK_SPACE} from '../../constant/editor'
   import Loading from '../../components/loading/index.svelte'
   import NoLoad from '../error/noLoad.svelte'
-  import {pdf,pdfTotal,pdfLoaded,pdfPages} from '../../store/'
-  import configStore from '../../store/store'
-  import {createStage,addToLayer,updateSize} from '../../reducers/workspace'
+  import {pdf,pdfTotal,pdfLoaded} from '../../store/'
+  import {
+    createStage,
+    updateSize,
+    setPdfTotalPage,
+    pdfNextPage,
+    pdfPrevPage,
+    pdfSetPage} from '../../reducers/workspace'
+  import {useDispatch,useStore} from 'svelte-reedux'
   import './style.css'
 
   pdf.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC
@@ -16,8 +22,11 @@
   let mainPdf;
   let viewport
   let scale = 0.73;
-  let numberPage = 1;
-  const store = configStore();
+  let total;
+  let now;
+
+  const store = useStore();
+  const dispatch = useDispatch();
 
 
 
@@ -36,13 +45,15 @@
 
   loadPdf.promise.then(async (pdf)=>{
     mainPdf = pdf;
-    pdfPages.subscribe(n=>{
-      n.total = mainPdf._pdfInfo.numPages;
-    })
-    RenderPDF($pdfPages.now,scale);
-    store.dispatch(createStage({stage: STAGE}))
+    dispatch(setPdfTotalPage(mainPdf._pdfInfo.numPages))
+    let pdfNowPage = store.getState().editor.pdfPages.now;
+    RenderPDF(pdfNowPage,scale);
+    dispatch(createStage({stage: STAGE}))
+    now = pdfNowPage;
+    total = mainPdf._pdfInfo.numPages;
   })
   .catch((err)=>{
+    successfulLoad = true;
   })
 
 
@@ -70,7 +81,7 @@
           viewport: viewport,
       };
       page.render(renderContext)
-      store.dispatch(updateSize({width:canvas.style.width.replace('px','') 
+      dispatch(updateSize({width:canvas.style.width.replace('px','') 
       , height: canvas.style.height.replace('px','') ,
        aspectRatio: `${canvas.width} / ${canvas.height}`,
         scale: scale
@@ -80,46 +91,54 @@
   }
 
   const nextPage = ()=>{
-    if($pdfPages.now !== mainPdf._pdfInfo.numPages){
-      pdfPages.subscribe(n =>{
-        n.now++;
-        numberPage = n.now;
-      })
-      RenderPDF($pdfPages.now,scale);
+    let pdfPageNow = store.getState().editor.pdfPages.now;
+    let pdfPageTotal = store.getState().editor.pdfPages.total;
+
+    if(pdfPageNow !== pdfPageTotal){
+      dispatch(pdfNextPage())
+      RenderPDF(++pdfPageNow,scale);
+      now = pdfPageNow;
     }
   }
 
   const prevPage = ()=>{
-    if($pdfPages.now !== 1){
-      pdfPages.subscribe(n =>{
-        n.now--;
-        numberPage = n.now;
-      })
-      RenderPDF($pdfPages.now,scale)
+    let pdfPageNow = store.getState().editor.pdfPages.now;
+
+    if(pdfPageNow !== 1){
+      dispatch(pdfPrevPage())
+      RenderPDF(--pdfPageNow,scale);
+      now = pdfPageNow;
     }
   }
 
   const setPage = (number)=>{
-    if(number !== $pdfPages.now && number > 0 && number <= $pdfPages.total && number.match(/[0-9]/g)){
+    let pdfPageNow = store.getState().editor.pdfPages.now;
+    let pdfPageTotal = store.getState().editor.pdfPages.total;
+
+    if(number !== pdfPageNow && number > 0 && number <= pdfPageTotal && number.match(/[0-9]/g)){
+      dispatch(pdfSetPage(+number))
       RenderPDF(+number,scale);
+      now = +number;
     }
   }
 
   const zoomIn = ()=>{
+    let pdfPageNow = store.getState().editor.pdfPages.now;
     scale += 0.1;
-    RenderPDF($pdfPages.now,scale)
+    RenderPDF(pdfPageNow,scale)
   }
 
   const zoomOut = ()=>{
+    let pdfPageNow = store.getState().editor.pdfPages.now;
     scale -= 0.1;
-    RenderPDF($pdfPages.now,scale)
+    RenderPDF(pdfPageNow,scale);
   }
 
 </script>
 
 
 <div>
-  <Header mode="pdf" nextPage={nextPage} prevPage={prevPage} setPage={setPage} numberPage={numberPage} zoomIn={zoomIn} zoomOut={zoomOut} />
+  <Header mode="pdf" nextPage={nextPage} prevPage={prevPage} setPage={setPage} zoomIn={zoomIn} zoomOut={zoomOut} total={total} now={now} />
   <main class="h-screen bg-gray-200 flex items-start justify-center relative pt-1" id="main">
     <canvas id={PDF_WORK_SPACE} class=" z-10"></canvas>
     <div id={STAGE} class="absolute z-20"></div>

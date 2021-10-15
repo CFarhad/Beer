@@ -1,7 +1,7 @@
 <script>
   import {pdfTotal,pdfLoaded} from '../../store/'
   export let type;
-  export let show;
+  export let show = true;
 
   let number
   pdfTotal.subscribe(value=>{
