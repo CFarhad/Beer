@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path');
 
 const mode = process.env.NODE_ENV || 'development';
@@ -17,7 +18,7 @@ module.exports = {
 	},
 	output: {
 		path: path.join(__dirname, '/public'),
-		filename: '[name].js',
+		filename: '[name][fullhash].js',
 		chunkFilename: '[name].[id].js'
 	},
 	module: {
@@ -35,15 +36,23 @@ module.exports = {
 					}
 				}
 			},
-			{
-				test: /\.css$/,
-				include: /src/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					'css-loader',
-				]
-			},
-			{ test: /\.(eot|woff)$/, loader: "file-loader" },
+      {
+        test: /\.css$/i,
+        include: path.resolve(__dirname, 'src'),
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
+      },
 			{
 				// required to prevent errors from Svelte on Webpack 5+
 				test: /node_modules\/svelte\/.*\.mjs$/,
@@ -57,11 +66,27 @@ module.exports = {
 	plugins: [
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
+		}),
+		new HtmlWebpackPlugin({
+			inject: false,
+			templateContent: ({htmlWebpackPlugin}) => `
+			<html>
+				<head>
+					<meta name='viewport' content='width=device-width,initial-scale=1'>
+					<title>Beer</title>
+					${htmlWebpackPlugin.tags.headTags}
+				</head>
+				<body>
+					${htmlWebpackPlugin.tags.bodyTags}
+				</body>
+			</html>
+		`
 		})
 	],
 	devtool: prod ? false : 'source-map',
 	devServer: {
 		hot: true,
-		port: 9000
-	}
+		port: 9000,
+		open: true,
+	},
 };

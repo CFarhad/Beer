@@ -43,15 +43,14 @@ const slice = createSlice({
       state.layer.add(action.payload)
     },
     addImage: (state,action)=>{
-      let dataURL = action.payload.dataURL
-      ;
+      let dataURL = action.payload.dataURL;
       console.log(dataURL);
       let newImage = new Image();
       newImage.src = dataURL;
       let image = new Konva.Image({
         image: newImage,
-        x: 0,
-        y: 0,
+        x: 40,
+        y: 40,
         name: 'image',
         draggable: true,
       });

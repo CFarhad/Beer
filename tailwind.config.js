@@ -1,15 +1,18 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
+  purge: ['./src/**/*.{svelte,js,html}'],
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {},
     fontFamily:{
-      sans: ['iranSans','Graphik', 'sans-serif'],
+      sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
+      persian: ['iransans']
     }
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }

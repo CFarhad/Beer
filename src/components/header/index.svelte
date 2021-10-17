@@ -41,7 +41,7 @@
     const image = store.getState().editor.stage;
 
 
-    const pngUrl = image.toDataURL({mimeType:"image/png",quality:2});
+    const pngUrl = image.toDataURL({mimeType:"image/png",pixelRatio:3});
 
     const pngImageBytes = await fetch(pngUrl).then((res) => res.arrayBuffer());
 
@@ -87,7 +87,7 @@
   <nav class=" fixed top-0 w-full z-30">
     <div class="bg-white container mx-auto flex items-center justify-between h-16 px-7 border-b-2">
         <div class="flex items-center">
-          <h1 class="font-brand text-5xl text-indigo-600 mt-1">Editor</h1>
+          <h1 class="font-brand text-4xl text-indigo-600 mt-1">Editor</h1>
         </div>
         <div class="flex items-center justify-between space-x-5">
         {#if mode === 'pdf'}
@@ -96,7 +96,7 @@
             <button class="btn-indigo rounded-r-none" title="قبلی" on:click={prevPage()}>
               <i class="bi bi-caret-left-fill"></i>
             </button>
-            <input type="text" class="control text-center border border-indigo-600 w-24"
+            <input type="text" class="form-input control text-center border border-indigo-600 w-24"
              placeholder="1" 
              value={`${now} / ${total}`}
              on:change={(e)=>setPdfPage(e.target.value)}
@@ -138,8 +138,8 @@
           </div>
         </div>
         <div class="flex items-center">
-          <button class="btn-green" on:click={saveFile} >
-            <i class="bi bi-download mr-2"></i>
+          <button class="btn-green font-persian" on:click={saveFile} >
+            <i class="bi bi-download mr-2 mt-0.5"></i>
             ذخیره
           </button>
         </div>

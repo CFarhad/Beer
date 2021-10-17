@@ -1,4 +1,6 @@
 <script>
+  import './index.css';
+  import './assets/css/bootstrap-icons.css'
   import PDF from './containers/pdf/index.svelte';
 	import Error from './containers/error/index.svelte'
   import {Provider} from 'svelte-reedux'

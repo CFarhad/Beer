@@ -14,10 +14,10 @@
   const store = useStore();
 
   let stage;
-  let layer;
   let isPaint = false;
   let mode = 'brush';
   let lastLine;
+  let allowExportSign = false;
 
 
   onMount(()=>{
@@ -38,6 +38,7 @@
           points: [pos.x, pos.y, pos.x, pos.y],
         });
         dispatch(addToSignatureLayer(lastLine))
+        allowExportSign = true
       });
 
       
@@ -67,6 +68,7 @@
 
   function deleteSignature(){
     dispatch(removeSignature())
+    allowExportSign = false;
   }
 
   function exportSign(){
@@ -123,10 +125,10 @@
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button type="button" class="btn-green ml-3" on:click={exportSign}>
+            <button type="button" class="btn-green ml-3 font-persian {allowExportSign ? 'cursor-pointer opacity-100' : 'cursor-default opacity-30 bg-green-600'}" on:click={exportSign}>
               افزودن
             </button>
-            <button type="button" class="btn-red" on:click={deleteSignature}>
+            <button type="button" class="btn-red font-persian" on:click={deleteSignature}>
               پاک کردن
             </button>
           </div>

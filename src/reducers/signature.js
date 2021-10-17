@@ -10,21 +10,29 @@ const slice = createSlice({
   },
   reducers:{
     createSignatureStage: (state,action)=>{
-      let newStage = state.stage;
       let myStage = new Konva.Stage({
         container: action.payload.stage,
         width: 450,
         height: 250,
       })
-
-
       state.stage = myStage;
       state.stage.container().style.border = "1px dashed #6B7280";
       state.stage.add(state.layer);
+
+      // Change the cursor when you enter and leave the mouse user
+      state.stage.on('mouseenter',(e)=>{
+        e.currentTarget.container().style.cursor = 'crosshair';
+      })
+      state.stage.on('mouseleave',(e)=>{
+        e.currentTarget.container().style.cursor = 'default';
+      })
+
     },
     addToSignatureLayer: (state,action)=>{
       state.layer.add(action.payload)
     },
+
+    // When the delete selection button is clicked, the entire stage is cleared
     removeSignature: (state)=>{
       state.layer.children = [];
       state.layer.draw();

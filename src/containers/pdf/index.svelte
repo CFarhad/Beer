@@ -18,7 +18,7 @@
   pdf.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC
   export let file;
   let successfulLoad;
-  let showLoading = false;
+  let showLoading = true;
   let mainPdf;
   let viewport
   let scale = 0.73;
