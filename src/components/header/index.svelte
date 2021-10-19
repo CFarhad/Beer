@@ -5,6 +5,7 @@
   import {PDFDocument} from 'pdf-lib';
   import {useDispatch} from 'svelte-reedux'
   import {addImage} from '../../reducers/workspace'
+  import Dropdown from '../dropdown/index.svelte'
 
   export let mode;
   export let nextPage;
@@ -12,8 +13,8 @@
   export let setPage;
   export let zoomIn;
   export let zoomOut;
-  export let now;
-  export let total;
+  export let now = 1;
+  export let total = 1;
 
   const store = useStore();
   const dispatch = useDispatch();
@@ -138,10 +139,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <button class="btn-green font-persian" on:click={saveFile} >
-            <i class="bi bi-download mr-2 mt-0.5"></i>
-            ذخیره
-          </button>
+          <Dropdown text="ذخیره" icon="bi-gear" download={saveFile} />
         </div>
     </div>
   

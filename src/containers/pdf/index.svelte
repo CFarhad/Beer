@@ -139,7 +139,7 @@
 
 <div>
   <Header mode="pdf" nextPage={nextPage} prevPage={prevPage} setPage={setPage} zoomIn={zoomIn} zoomOut={zoomOut} total={total} now={now} />
-  <main class="h-screen bg-gray-200 flex items-start justify-center relative pt-1" id="main">
+  <main class=" bg-gray-200 flex items-start justify-center relative h-[calc(100vh - (4rem + 3.5rem))] mt-[calc(4rem + 3.5rem)] p-[10px] overflow-auto" id="main">
     <canvas id={PDF_WORK_SPACE} class=" z-10"></canvas>
     <div id={STAGE} class="absolute z-20"></div>
     <Loading show={showLoading} type="line"  />
