@@ -28,6 +28,8 @@
   const store = useStore();
   const dispatch = useDispatch();
 
+  // disable right click  
+  document.addEventListener('contextmenu', event => event.preventDefault());
 
 
   // Load Pdf
@@ -53,6 +55,7 @@
     total = mainPdf._pdfInfo.numPages;
   })
   .catch((err)=>{
+    showLoading = false;
     successfulLoad = true;
   })
 
