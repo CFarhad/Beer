@@ -44,7 +44,6 @@ const slice = createSlice({
     },
     addImage: (state,action)=>{
       let dataURL = action.payload.dataURL;
-      console.log(dataURL);
       let newImage = new Image();
       newImage.src = dataURL;
       let image = new Konva.Image({

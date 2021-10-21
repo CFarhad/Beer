@@ -33,7 +33,6 @@
     const pages = pdfDoc.getPages();
     const firstPage = pages[0];
     const { width, height } = firstPage.getSize();
-    console.log(width, height );
     const image = store.getState().editor.stage;
 
 
@@ -69,7 +68,6 @@
 
     getBase64(file).then(
       data =>{
-        console.log(data);
         let {width , height} = store.getState().editor.size;
 
         store.dispatch(addImage({dataURL: data,width,height}))
