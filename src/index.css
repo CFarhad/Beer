@@ -64,19 +64,19 @@ body{
     @apply w-full inset-full justify-center rounded-md px-2 py-1 bg-transparent text-gray-900 text-lg font-extrabold focus:text-blue-700 focus:bg-blue-100 hover:bg-gray-200
   }
   .btn-blue {
-    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-blue-700 text-base font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 sm:w-auto sm:text-sm z-10;
+    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-blue-700 text-base font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 sm:w-auto dark:focus:ring-offset-gray-800 sm:text-sm z-10;
   }
   .btn-indigo {
-    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2.5 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 focus:bg-indigo-600 z-10;
+    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2.5 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 focus:bg-indigo-600 dark:focus:ring-offset-gray-800 z-10;
   }
   .btn-green {
-    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm z-10;
+    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto dark:focus:ring-offset-gray-800 sm:text-sm z-10;
   }
   .btn-red {
-    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm z-10;
+    @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-3 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto dark:focus:ring-offset-gray-800 sm:text-sm z-10;
   }
   .btn-default {
-    @apply w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 sm:w-auto sm:text-sm z-10;
+    @apply w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-3 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 sm:w-auto dark:focus:ring-offset-gray-800 sm:text-sm z-10;
   }
   .btn-close{
     @apply w-7 h-7 rounded-full flex justify-center items-center text-gray-500 hover:bg-gray-50 text-3xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300;

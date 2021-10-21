@@ -5,6 +5,8 @@
   import Loading from '../../components/loading/index.svelte'
   import NoLoad from '../error/noLoad.svelte'
   import {pdf,pdfTotal,pdfLoaded} from '../../store/'
+  import store from '../../store/store'
+
   import {
     createStage,
     updateSize,
@@ -12,7 +14,7 @@
     pdfNextPage,
     pdfPrevPage,
     pdfSetPage} from '../../reducers/workspace'
-  import {useDispatch,useStore} from 'svelte-reedux'
+
   import './style.css'
 
   pdf.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC
@@ -22,11 +24,8 @@
   let mainPdf;
   let viewport
   let scale = 0.73;
-  let total;
-  let now;
 
-  const store = useStore();
-  const dispatch = useDispatch();
+
 
   // disable right click  
   document.addEventListener('contextmenu', event => event.preventDefault());
@@ -47,16 +46,13 @@
 
   loadPdf.promise.then(async (pdf)=>{
     mainPdf = pdf;
-    dispatch(setPdfTotalPage(mainPdf._pdfInfo.numPages))
+    store.dispatch(setPdfTotalPage(mainPdf._pdfInfo.numPages))
     let pdfNowPage = store.getState().editor.pdfPages.now;
     RenderPDF(pdfNowPage,scale);
-    dispatch(createStage({stage: STAGE}))
-    now = pdfNowPage;
-    total = mainPdf._pdfInfo.numPages;
+    store.dispatch(createStage({stage: STAGE}))
   })
   .catch((err)=>{
-    showLoading = false;
-    successfulLoad = true;
+    showLoading = successfulLoad = false;
   })
 
 
@@ -84,7 +80,7 @@
           viewport: viewport,
       };
       page.render(renderContext)
-      dispatch(updateSize({width:canvas.style.width.replace('px','') 
+      store.dispatch(updateSize({width:canvas.style.width.replace('px','') 
       , height: canvas.style.height.replace('px','') ,
        aspectRatio: `${canvas.width} / ${canvas.height}`,
         scale: scale
@@ -98,9 +94,8 @@
     let pdfPageTotal = store.getState().editor.pdfPages.total;
 
     if(pdfPageNow !== pdfPageTotal){
-      dispatch(pdfNextPage())
+      store.dispatch(pdfNextPage())
       RenderPDF(++pdfPageNow,scale);
-      now = pdfPageNow;
     }
   }
 
@@ -108,9 +103,8 @@
     let pdfPageNow = store.getState().editor.pdfPages.now;
 
     if(pdfPageNow !== 1){
-      dispatch(pdfPrevPage())
+      store.dispatch(pdfPrevPage())
       RenderPDF(--pdfPageNow,scale);
-      now = pdfPageNow;
     }
   }
 
@@ -119,14 +113,14 @@
     let pdfPageTotal = store.getState().editor.pdfPages.total;
 
     if(number !== pdfPageNow && number > 0 && number <= pdfPageTotal && number.match(/[0-9]/g)){
-      dispatch(pdfSetPage(+number))
+      store.dispatch(pdfSetPage(+number))
       RenderPDF(+number,scale);
-      now = +number;
     }
   }
 
   const zoomIn = ()=>{
     let pdfPageNow = store.getState().editor.pdfPages.now;
+
     scale += 0.1;
     RenderPDF(pdfPageNow,scale)
   }
@@ -141,8 +135,8 @@
 
 
 <div>
-  <Header mode="pdf" nextPage={nextPage} prevPage={prevPage} setPage={setPage} zoomIn={zoomIn} zoomOut={zoomOut} total={total} now={now} />
-  <main class=" bg-gray-200 flex items-start justify-center relative h-[calc(100vh - (4rem + 3.5rem))] mt-[calc(4rem + 3.5rem)] p-[10px] overflow-auto" id="main">
+  <Header mode="pdf" nextPage={nextPage} prevPage={prevPage} setPage={setPage} zoomIn={zoomIn} zoomOut={zoomOut} />
+  <main class=" bg-gray-200 dark:bg-gray-600 flex items-start justify-center relative h-[calc(100vh - (4rem + 3.5rem))] mt-[calc(4rem + 3.5rem)] p-[10px] overflow-auto" id="main">
     <canvas id={PDF_WORK_SPACE} class=" z-10"></canvas>
     <div id={STAGE} class="absolute z-20"></div>
     <Loading show={showLoading} type="line"  />

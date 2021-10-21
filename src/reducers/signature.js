@@ -16,7 +16,7 @@ const slice = createSlice({
         height: 250,
       })
       state.stage = myStage;
-      state.stage.container().style.border = "1px dashed #6B7280";
+      state.stage.container().style.border = "1px dashed #1F2937";
       state.stage.add(state.layer);
 
       // Change the cursor when you enter and leave the mouse user

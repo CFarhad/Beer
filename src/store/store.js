@@ -1,13 +1,22 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore , createStore } from "@reduxjs/toolkit";
 import reducers from "../reducers";
 
-export default function (){
-  return configureStore({
-    reducer: reducers,
-    devTools:true,
-    middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
-  })
+function svelteStoreEnhancer(createStoreApi) {
+	return function (reducer, initialState) {
+		const reduxStore = createStoreApi(
+			reducer, initialState
+		);
+		return {
+			...reduxStore,
+			subscribe(fn) {
+				fn(reduxStore.getState());
+
+				return reduxStore.subscribe(() => {
+					fn(reduxStore.getState());
+				});
+			}
+		}
+	}
 }
+
+export default createStore(reducers,svelteStoreEnhancer)

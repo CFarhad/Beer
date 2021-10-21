@@ -1,11 +1,10 @@
 <script>
   import {modal} from '../../store/index'
   import Modal from '../modal/index.svelte'
-  import {useStore} from 'svelte-reedux';
   import {PDFDocument} from 'pdf-lib';
-  import {useDispatch} from 'svelte-reedux'
   import {addImage} from '../../reducers/workspace'
   import Dropdown from '../dropdown/index.svelte'
+  import store from '../../store/store'
 
   export let mode;
   export let nextPage;
@@ -13,11 +12,7 @@
   export let setPage;
   export let zoomIn;
   export let zoomOut;
-  export let now = 1;
-  export let total = 1;
 
-  const store = useStore();
-  const dispatch = useDispatch();
 
 
   function toggleModal(){
@@ -77,7 +72,7 @@
         console.log(data);
         let {width , height} = store.getState().editor.size;
 
-        dispatch(addImage({dataURL: data,width,height}))
+        store.dispatch(addImage({dataURL: data,width,height}))
       }
     );
   }
@@ -86,7 +81,7 @@
 
 <div>
   <nav class=" fixed top-0 w-full z-30">
-    <div class="bg-white container mx-auto flex items-center justify-between h-16 px-7 border-b-2">
+    <div class="bg-white dark:bg-gray-800 container mx-auto flex items-center justify-between h-16 px-7 border-b-2 dark:border-gray-900">
         <div class="flex items-center">
           <h1 class="font-brand text-4xl text-indigo-600 mt-1">Editor</h1>
         </div>
@@ -97,9 +92,9 @@
             <button class="btn-indigo rounded-r-none" title="قبلی" on:click={prevPage()}>
               <i class="bi bi-caret-left-fill"></i>
             </button>
-            <input type="text" class="form-input control text-center border border-indigo-600 w-24"
+            <input type="text" class="form-input control text-center border border-indigo-600 w-24 dark:bg-gray-800 dark:text-white"
              placeholder="1" 
-             value={`${now} / ${total}`}
+             value={`${$store.editor.pdfPages.now} / ${$store.editor.pdfPages.total}`}
              on:change={(e)=>setPdfPage(e.target.value)}
             />
             <button class="btn-indigo rounded-l-none" title="بعدی" on:click={nextPage()}>
@@ -145,7 +140,7 @@
   
     <!-- subnavbar -->
 
-    <div class="bg-white container mx-auto flex items-center justify-between h-14 px-7 shadow-md">
+    <div class="bg-white dark:bg-gray-800 container mx-auto flex items-center justify-between h-14 px-7 shadow-md">
       <div class=""></div>
       <div class="flex items-center">
         <button class="btn-red hidden">
