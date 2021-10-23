@@ -32,5 +32,6 @@ url("../fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("wo
 .bi-fullscreen::before { content: "\f3df"; }
 .bi-download::before { content: "\f30a"; }
 .bi-printer-fill::before { content: "\f500"; }
-.bi-moon-fill::before { content: "\f494"; }
+.bi-moon-stars-fill::before { content: "\f495"; }
 .bi-brightness-high-fill::before { content: "\f1d1"; }
+.bi-x::before { content: "\f62a"; }

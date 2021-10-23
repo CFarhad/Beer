@@ -1,4 +1,4 @@
-import { configureStore , createStore } from "@reduxjs/toolkit";
+import {createStore } from "@reduxjs/toolkit";
 import reducers from "../reducers";
 
 function svelteStoreEnhancer(createStoreApi) {

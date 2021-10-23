@@ -112,7 +112,7 @@
         -->
         <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
           <div class="w-full flex justify-between flex-row-reverse p-4 text-gray-900 dark:text-white">
-            <button class="text-2xl btn-close dark:text-white" on:click={toggleModal}>
+            <button class="text-2xl btn-close dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-900" on:click={toggleModal}>
               <i class="bi bi-x"></i>
             </button>
             <h3>Draw</h3>

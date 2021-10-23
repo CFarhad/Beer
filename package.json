@@ -30,6 +30,7 @@
     "@reduxjs/toolkit": "^1.6.2",
     "@tailwindcss/forms": "^0.3.4",
     "autoprefixer": "^10.3.7",
+    "bootstrap-icons": "^1.6.1",
     "downloadjs": "^1.4.7",
     "konva": "^8.2.2",
     "pdf-lib": "^1.16.0",

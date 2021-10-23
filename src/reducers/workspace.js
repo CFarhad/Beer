@@ -1,11 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
 import Konva from "konva"
 
+
 const slice = createSlice({
   name: 'workspace',
   initialState: {
     stage: null,
-    layer: new Konva.Layer({}),
+    layer: new Konva.Layer(),
+    allLayer: [],
+    allImages: [],
     size:{
       width: 0,
       height:0,
@@ -36,6 +39,7 @@ const slice = createSlice({
         scale: {x: 0.73 , y:0.73}
       })
       state.stage = myStage;
+      state.layer.draw();
       state.stage.add(state.layer);
       state.layer.add(state.transformer);
     },
@@ -84,6 +88,11 @@ const slice = createSlice({
       state.pdfPages.now = action.payload;
     },
     pdfNextPage: (state)=>{
+      let nowLayer = state.stage.toJSON();
+      let json = `${nowLayer}`;
+
+      // Konva.Node.create(newjson,'stage')
+
       state.pdfPages.now++;
     },
     pdfPrevPage: (state)=>{

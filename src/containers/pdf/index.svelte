@@ -28,7 +28,9 @@
 
 
   // disable right click  
-  document.addEventListener('contextmenu', event => event.preventDefault());
+  document.addEventListener('contextmenu', (e)=>{
+    console.log(e);
+  });
 
 
   // Load Pdf
