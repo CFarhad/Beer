@@ -1,5 +1,5 @@
 module.exports = {
-  mode: 'jit',
+  mode: process.env.NODE_ENV === 'development' ? 'jit' : '',
   purge: ['./src/**/*.{svelte,js,html}'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
