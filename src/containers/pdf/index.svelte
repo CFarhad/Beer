@@ -13,10 +13,8 @@
     setPdfTotalPage,
     pdfNextPage,
     pdfPrevPage,
-    pdfSetPage} from '../../reducers/workspace'
-
-  import './style.css'
-
+    pdfSetPage} from '../../reducers/workspace';
+    
   pdf.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC
   export let file;
   let successfulLoad;

@@ -5,6 +5,7 @@
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "babel-loader": "^8.2.2",
+    "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.7",
     "file-loader": "^6.2.0",
@@ -22,8 +23,11 @@
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
+    "clean": "rm -rf ./public",
+    "frontend": "cross-env NODE_ENV=development webpack serve --mode=development",
+    "backend": "node ./server/index.js",
+    "start": "concurrently --kill-others \"npm run frontend\" \"npm run backend\"",
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack serve --mode=development",
     "build:tailwind": "postcss src/index.css -o src/assets/css/tailwind.css"
   },
   "dependencies": {

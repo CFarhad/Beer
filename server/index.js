@@ -5,8 +5,8 @@ const app = express();
 
 app.use(cors())
 
-app.get('/download',(req,res)=>{
-  const file = `./note.pdf`;
+app.get('/',(req,res)=>{
+  const file = `./server/note.pdf`;
   res.download(file)
 })
 
