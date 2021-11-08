@@ -12,7 +12,7 @@ const slice = createSlice({
     createSignatureStage: (state,action)=>{
       let myStage = new Konva.Stage({
         container: action.payload.stage,
-        width: 450,
+        width: 470,
         height: 250,
       })
       state.stage = myStage;

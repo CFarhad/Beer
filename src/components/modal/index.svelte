@@ -18,6 +18,8 @@
   let lastLine;
   let allowExportSign = false;
 
+  let lineColor = '#000000';
+
 
   onMount(()=>{
     store.dispatch(createSignatureStage({stage: SIGN_STAGE}))
@@ -27,7 +29,7 @@
         isPaint = true;
         var pos = stage.getPointerPosition();
         lastLine = new Konva.Line({
-          stroke: '#000000',
+          stroke: lineColor,
           strokeWidth: 5,
           globalCompositeOperation:
             mode === 'brush' ? 'source-over' : 'destination-out',
@@ -81,6 +83,41 @@
       toggleModal()
     }
   }
+
+  // check input value is hex color
+  function isHex(str) {
+    return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(str);
+  }
+
+  // handle input color
+  function handleColor(e) {
+    const color = e.target.value;
+    if (isHex(color)) {
+      lineColor = color;
+      e.target.classList.remove('focus:ring-red-500');
+      e.target.classList.remove('focus:border-red-500');
+
+      e.target.classList.add('focus:ring-green-500');
+      e.target.classList.add('focus:border-green-500');
+    }
+    else{
+      lineColor = '#000000';
+      e.target.classList.add('focus:ring-red-500');
+      e.target.classList.add('focus:border-red-500');
+
+      e.target.classList.remove('focus:ring-green-500');
+      e.target.classList.remove('focus:border-green-500');
+    }
+  }
+
+  // set brush color to input color
+  function setDefaultColor(e){
+    if(isHex(e.target.value)){
+      lineColor = e.target.value;
+    }
+  }
+
+
 </script>
 
 <div class="fixed z-50 inset-0 overflow-y-auto {$modal ? '' : 'hidden'}" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -111,14 +148,25 @@
             To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         -->
         <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div class="w-full flex justify-between flex-row-reverse p-4 text-gray-900 dark:text-white">
+          <div class="w-full flex justify-between flex-reverse p-4 text-gray-900 dark:text-white dark:bg-gray-800 bg-gray-50">
             <button class="text-2xl btn-close dark:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-900" on:click={toggleModal}>
               <i class="bi bi-x"></i>
             </button>
-            <h3>Draw</h3>
+            <h3 class="font-persian">امضا</h3>
           </div>
-          <div class="flex items-center justify-between"></div>
-          <div class="bg-white dark:bg-gray-500 p-4">
+          <div class="flex items-center justify-between p-4 dark:bg-gray-900">
+            <button class="bg-[#F44336] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F44336]" value="#F44336" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#E91E63] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E91E63]" value="#E91E63" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#9C27B0] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#9C27B0]" value="#9C27B0" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#673AB7] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#673AB7]" value="#673AB7" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#2196F3] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2196F3]" value="#2196F3" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#00BCD4] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00BCD4]" value="#00BCD4" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#009688] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#009688]" value="#009688" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#FFEB3B] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FFEB3B]" value="#FFEB3B" on:click={(e)=>setDefaultColor(e)}></button>
+            <button class="bg-[#000000] w-6 h-6 rounded-md mr-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#000000]" value="#000000" on:click={(e)=>setDefaultColor(e)}></button>
+            <input type="text" class="h-6 w-20 rounded-md border-gray-300 p-2 text-sm dark:bg-gray-500" value="#000000" placeholder="#000000" on:input={(e)=>handleColor(e)}>
+          </div>
+          <div class="bg-white dark:bg-gray-900 p-4">
             <div class="flex justify-center items-center flex-col">
                 <div id={SIGN_STAGE}></div>
             </div>
