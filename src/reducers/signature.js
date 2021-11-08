@@ -41,6 +41,8 @@ const slice = createSlice({
       state.line = state.layer.toDataURL({
         pixelRatio: eval(action.payload.aspectRatio)
       })
+      state.layer.children = [];
+      state.layer.draw();
     }
   }
 });

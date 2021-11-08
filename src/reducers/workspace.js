@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import Konva from "konva"
+import {createHash , handlePdfPage} from '../helpers'
+
 
 
 const slice = createSlice({
@@ -31,6 +33,7 @@ const slice = createSlice({
     }
   },
   reducers: {
+    // create initial stage 
     createStage: (state,action)=>{
       let myStage = new Konva.Stage({
         container: action.payload.stage,
@@ -46,6 +49,8 @@ const slice = createSlice({
     addToLayer: (state,action)=>{
       state.layer.add(action.payload)
     },
+
+    // add any image to the layer 
     addImage: (state,action)=>{
       let dataURL = action.payload.dataURL;
       let newImage = new Image();
@@ -57,23 +62,34 @@ const slice = createSlice({
         name: 'image',
         draggable: true,
       });
-      let newTransformer = state.transformer;
-      let newStage = state.stage;
-      image.on('click', (e) => {
-        newTransformer.nodes([image]);
-        newTransformer.moveToTop();
-        newStage.on('click', (e) => {
-          if (e.target === newStage) {
-            newTransformer.nodes([]);
+
+      // set name for image
+      image.name(`${state.pdfPages.now}${createHash()}`);
+
+      // add image to allImages
+      state.allImages.push({name: image.name(), src: dataURL});
+
+
+      image.on('click',  (e) => {
+        let transformer = e.target.parent.find('Transformer')[0];
+        let stage = e.target.parent.parent;
+        transformer.nodes([e.target]);
+        transformer.moveToTop();
+        stage.on('click', (e) => {
+          if (e.target === stage) {
+            transformer.nodes([]);
           }
         });
       });
-      
-      image.on('dragstart', function () {
-        this.moveToTop();
+
+      image.on('transform', (e) => {
+        e.target.moveToTop();
       });
+
+
       state.layer.add(image);
     },
+    // change the size of the stage when the pdf is resized
     updateSize: (state,action)=>{
       state.size = {width:action.payload.width,height:action.payload.height,aspectRatio: action.payload.aspectRatio,scale:action.payload.scale};
 
@@ -87,19 +103,34 @@ const slice = createSlice({
     setPdfNowPage: (state,action)=>{
       state.pdfPages.now = action.payload;
     },
-    pdfNextPage: (state)=>{
-      let nowLayer = state.stage.toJSON();
-      let json = `${nowLayer}`;
 
-      // Konva.Node.create(newjson,'stage')
+    /*
+    * when the user click on next button then the current page will be incremented
+    * and the next page will be loaded
+    */ 
+    pdfNextPage: (state)=>{      
 
-      state.pdfPages.now++;
+      handlePdfPage(state,()=>{
+        state.pdfPages.now++;
+      })
+
     },
+
+    /*
+    * when the user click on prev previous then the current page will be decremented
+    * and the previous page will be loaded
+    */ 
     pdfPrevPage: (state)=>{
-      state.pdfPages.now--;
+
+      handlePdfPage(state,()=>{ 
+        state.pdfPages.now--;
+      })
+
     },
     pdfSetPage: (state,action)=>{
-      state.pdfPages.now = action.payload;
+      handlePdfPage(state,()=>{
+        state.pdfPages.now = action.payload;
+      })
     },
   }
 })
