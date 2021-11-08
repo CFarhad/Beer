@@ -3,16 +3,11 @@
   import './assets/css/bootstrap-icons.css';
   import PDF from './containers/pdf/index.svelte';
   import Error from './containers/error/index.svelte';
-  import DeviceWidth from './containers/error/deviceWidth.svelte';
 
   const searchParams = new URLSearchParams(window.location.search);
   const file = searchParams.get('url');
   const mode = searchParams.get('mode');
 
-  let deviceWidth = document.documentElement.offsetWidth;
-  window.addEventListener('resize', (e) => {
-    deviceWidth = document.documentElement.offsetWidth;
-  });
 
   if (localStorage.theme === 'dark') {
     document.documentElement.classList.add('dark');
@@ -23,12 +18,11 @@
   }
 
   // funy message
-  console.log("%c4EVER OR NEVER","color:#FBBF24;font-size:72px;-webkit-text-stroke: 2px black")
+  console.log("%cFOR EVER OR NEVER","color:#4F46E5;font-size:72px;-webkit-text-stroke: 2px black")
 </script>
 
-{#if deviceWidth < 850}
-  <DeviceWidth />
-{:else if mode === 'pdf'}
+
+{#if mode === 'pdf'}
   <PDF {file} />
 {:else if mode === 'image'}
   hi
