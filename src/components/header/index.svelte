@@ -1,6 +1,7 @@
 <script>
-  import {modal} from '../../store/index'
+  import {modal,stampModal} from '../../store/index'
   import Modal from '../modal/index.svelte'
+  import StampModal from '../stamp/index.svelte'
   import {PDFDocument} from 'pdf-lib';
   import {addImage} from '../../reducers/workspace'
   import Dropdown from '../dropdown/index.svelte'
@@ -75,6 +76,14 @@
     );
   }
 
+    /**
+   * toggle Stamp Modal
+   * @param {boolean} show
+   */
+   function toggleStamp(){
+    stampModal.update(item => item = !item);
+  }
+
 </script>
 
 <div>
@@ -120,15 +129,15 @@
             </button>
           </div>
           <div class="flex items-center ">
+            <button class="btn-indigo" on:click={toggleStamp}>
+              <i class="bi bi-lamp"></i>
+            </button>
+          </div>
+          <div class="flex items-center ">
             <label class="btn-indigo cursor-pointer" id="insertImage" for="inputFile">
               <input class="hidden" type="file" id="inputFile" accept=".png,.svg,.jpg" on:change={e=>insertImage(e)} />
             <i class="bi bi-image"></i>
             </label>
-          </div>
-          <div class="flex items-center ">
-            <button class="btn-indigo">
-              <i class="bi bi-lamp"></i>
-            </button>
           </div>
         </div>
         <div class="flex items-center">
@@ -151,4 +160,6 @@
 
   <!-- Modal -->
   <Modal />
+  <!-- Stamp -->
+  <StampModal />
 </div>
