@@ -1,4 +1,4 @@
-<div class="h-screen bg-white dark:bg-gray-800 flex justify-center items-center flex-row-reverse overscroll-none">
+<div class="h-screen bg-white dark:bg-gray-800 flex flex-col justify-center items-center flex-row-reverse overscroll-none">
   <div class="flex flex-row-reverse items-start">
     <div class="text-indigo-600 font-extrabold text-6xl border-l-2 pl-4 ml-4">
       400
@@ -11,4 +11,8 @@
       </div>
     </div>
   </div>
+  <ul class="block mt-10 text-right rounded-md bg-gray-100 p-5">
+    <li class="font-persian select-none" dir="rtl">فایل خود را در فضایی آپلود کنید و آدرس آن را به جای DOCUMENT_URL قرار دهید و تمام آدرس را در url مرورگر خود جای گذاری کنید</li>
+    <li class="mt-3 font-bold">/?mode=pdf&url=[DOCUMENT_URL]</li>
+  </ul>
 </div>
